@@ -1,0 +1,26 @@
+.bubble_right
+{
+    display: block;
+    position: relative;
+    width: 265px;
+    height: 100px;
+    padding: 0px;
+    background: #CF5858;
+    -webkit-border-radius: 19px;
+    -moz-border-radius: 19px;
+    border-radius: 19px;
+}
+
+.bubble_right:after
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 8px 0 8px 24px;
+    border-color: transparent #CF5858;
+    display: block;
+    width: 0;
+    z-index: 1;
+    right: -24px;
+    top: 52px;
+}
