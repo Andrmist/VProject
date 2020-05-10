@@ -7,5 +7,5 @@ function logFile(file, text) {
 function error(thing, text) {
     console.error(`${thing ? thing + ' ' : ''}failed: ${text}`);
 }
-// export {log, logFile, error}
+export {log, logFile, error}
 // export default {log, logFile, error}

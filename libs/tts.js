@@ -1,8 +1,13 @@
 // https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ru&ttsspeed=3&q=
+import {error} from "./log.js";
 
-async function say(words) {
-    let audio = await new Audio('https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ru&ttsspeed=3&q=' + words);
-    await audio.play().then(r => audio.pause()).catch(r => error('tts', 'audio failed: ' + r));
-}
+export default words => {
+    let msg = new SpeechSynthesisUtterance();
+    let voices = window.speechSynthesis.getVoices();
+    msg.voice = voices[15];
+    msg.text = words;
+    msg.lang = 'ru-RU';
 
-// export default say;
+    speechSynthesis.speak(msg);
+};
+

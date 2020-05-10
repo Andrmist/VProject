@@ -1,9 +1,16 @@
 // importScripts('tts.js');
-console.log('test');
+// console.log('test');
+import {sendVoice} from "./output.js";
 
-onmessage = source => {
-    console.log('test number 2');
-    // say('Все хорошо');
-    postMessage({type: 'voice', value: 'Все хорошо'});
+function init() {
 
-};
+}
+
+function answer(data) {
+    return sendVoice({
+        "ru": "Все хорошо",
+        "en": "All is good"
+    })
+}
+
+export {answer, init}

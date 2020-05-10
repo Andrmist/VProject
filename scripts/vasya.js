@@ -1,23 +1,19 @@
-// import {log, logFile, error} from './log.js'
-// import say from './tts.js'
+import {log, logFile, error} from './log.js'
+import say from './tts.js'
+import config from "./config.js";
+
+let startElement = $('.start');
+console.log(config);
+startElement.click(() => start());
+
 function start() {
-    let startElement = $('.start');
-    startElement.fadeTo('fast', 0.0)
+    startElement.fadeTo('fast', 0.0);
+    startElement.click(() => {});
 
     startVasyaEngine();
 }
 function startVasyaEngine() {
-
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    let config;
-    $.getJSON('/config', data => {
-        config = new function () {
-            this.conf = data;
-            this.lang = data['Options']['lang'];
-            this.confL = data[this.lang];
-        };
-    });
 
     let userMsg = document.createElement('p');
     userMsg.align = 'right';
@@ -27,9 +23,10 @@ function startVasyaEngine() {
     async function loadModules() {
         socket.emit('listModules');
         await socket.on('list', files => {
-            files.forEach(file => {
+            files.forEach(async file => {
                 let fileName = file.slice(0, file.length - 3);
-                modules[fileName] = new Worker(file);
+                modules[fileName] = await import('./' + fileName + '.js');
+                modules[fileName].init();
             })
         });
         console.log(modules)
@@ -65,28 +62,28 @@ function startVasyaEngine() {
     async function executeCmd(cmd, source) {
         for (let key of Object.keys(modules)) {
             let value = modules[key];
-            log(`${key}: ${value}`);
+            // log(`${key}: ${value}`);
             if (cmd === key) {
                 logFile(key, 'executing');
-                value.postMessage(source);
                 log('waiting info from ' + key);
-                value.onmessage = output => {
-                    logFile(key, 'returned output:');
-                    console.log(output);
-                    switch (output.data.type) {
-                        case 'log':
-                            logFile(key, output.data.value);
-                        case 'voice':
-                            let vasyaMsg = document.createElement('p');
-                            // userMsg.align = 'right';
-                            vasyaMsg.textContent = output.data.value;
-                            words.append(vasyaMsg);
-                            logFile(key, 'saying words: ' + output.data.value);
-                            say(output.data.value);
-                            break;
+                let output = value.answer(source);
 
-                    }
+                logFile(key, 'returned output:');
+                console.log(output);
+                switch (output.type) {
+                    case 'log':
+                        logFile(key, output.value);
+                    case 'voice':
+                        let vasyaMsg = document.createElement('p');
+                        // userMsg.align = 'right';
+                        vasyaMsg.textContent = output.value;
+                        words.append(vasyaMsg);
+                        logFile(key, 'saying words: ' + output.value);
+                        say(output.value);
+                        break;
+
                 }
+
             }
 
         }

@@ -26,6 +26,7 @@ router.get('/config', async ctx => {
     ctx.body = fs.createReadStream('config.json');
 });
 
+
 app
     .use(router.routes())
     .use(router.allowedMethods())
@@ -36,3 +37,4 @@ app
     .use(serve('./scripts'));
 
 app.listen(3000);
+console.log('Listening: http://localhost:3000');

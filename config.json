@@ -15,6 +15,9 @@
             "произнеси"
         ],
         "cmds": {
+            "weather": [
+                "погода"
+            ],
             "time": [
                 "время",
                 "времени",
@@ -37,13 +40,12 @@
                 "тест",
                 "проверка"
             ]
+        },
+        "errors": {
+            "localization not found": "Локализация для языка ru и en не было найдено"
         }
     },
-    "Options": {
-        "lang": "ru",
-        "version": "0.0.1",
-        "deviceIndex": 17
-    },
+    "version": "1.0.0",
     "cmds": {
         "test": "1.0",
         "time": "1.0"
