@@ -1,5 +1,5 @@
-import {log, logFile, error} from './log.js'
-import say from './tts.js'
+import {log, logFile, error} from './log.js';
+import say from './tts.js';
 import config from "./config.js";
 
 let startElement = $('.start');
@@ -12,6 +12,8 @@ function start() {
 
     startVasyaEngine();
 }
+
+
 function startVasyaEngine() {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -27,9 +29,9 @@ function startVasyaEngine() {
                 let fileName = file.slice(0, file.length - 3);
                 modules[fileName] = await import('./' + fileName + '.js');
                 modules[fileName].init();
-            })
+            });
         });
-        console.log(modules)
+        console.log(modules);
     }
     function parseCmd(cmd) {
         cmd = cmd.toLowerCase();
@@ -40,7 +42,7 @@ function startVasyaEngine() {
         for (let i of config.confL['tbr']) {
             cmd.replace(i, '');
         }
-        return cmd
+        return cmd;
     }
 
     function recognizeCmd(cmd) {
@@ -143,7 +145,7 @@ function startVasyaEngine() {
     recognition.addEventListener('end', () => {
         userMsg = document.createElement('p');
         words.append(userMsg);
-        recognition.start()
+        recognition.start();
     });
 
 
